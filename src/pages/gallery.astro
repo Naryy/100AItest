@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PhotoSwipeGallery from '../components/PhotoSwipeGallery.astro';
+
+// サンプル画像データ（後で実際の画像に置き換え）
+const photos = [
+  { src: 'https://picsum.photos/800/600?random=1', width: 800, height: 600, alt: 'Photo 1' },
+  { src: 'https://picsum.photos/800/600?random=2', width: 800, height: 600, alt: 'Photo 2' },
+  { src: 'https://picsum.photos/800/600?random=3', width: 800, height: 600, alt: 'Photo 3' },
+  { src: 'https://picsum.photos/800/600?random=4', width: 800, height: 600, alt: 'Photo 4' },
+  { src: 'https://picsum.photos/800/600?random=5', width: 800, height: 600, alt: 'Photo 5' },
+  { src: 'https://picsum.photos/800/600?random=6', width: 800, height: 600, alt: 'Photo 6' },
+];
+---
+
+<Layout title="Gallery - Photo Portfolio">
+  <h1 style="font-size: 2.5rem; margin-bottom: 2rem;">Gallery</h1>
+  <p style="color: #666; margin-bottom: 2rem;">写真をクリックすると拡大表示されます</p>
+  
+  <PhotoSwipeGallery photos={photos} />
+</Layout>
