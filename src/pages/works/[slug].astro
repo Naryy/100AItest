@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PhotoSwipeGallery from '../../components/PhotoSwipeGallery.astro';
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { slug: 'nature' },
+      props: {
+        title: '自然風景',
+        description: '自然の美しさを捉えた作品集',
+        photos: [
+          { src: 'https://picsum.photos/1200/800?random=10', width: 1200, height: 800, alt: 'Nature 1' },
+          { src: 'https://picsum.photos/1200/800?random=11', width: 1200, height: 800, alt: 'Nature 2' },
+          { src: 'https://picsum.photos/1200/800?random=12', width: 1200, height: 800, alt: 'Nature 3' },
+        ]
+      }
+    },
+    {
+      params: { slug: 'urban' },
+      props: {
+        title: '都市景観',
+        description: '都市の表情を切り取った作品集',
+        photos: [
+          { src: 'https://picsum.photos/1200/800?random=20', width: 1200, height: 800, alt: 'Urban 1' },
+          { src: 'https://picsum.photos/1200/800?random=21', width: 1200, height: 800, alt: 'Urban 2' },
+          { src: 'https://picsum.photos/1200/800?random=22', width: 1200, height: 800, alt: 'Urban 3' },
+        ]
+      }
+    },
+    {
+      params: { slug: 'portrait' },
+      props: {
+        title: 'ポートレート',
+        description: '人物の表情を捉えた作品集',
+        photos: [
+          { src: 'https://picsum.photos/1200/800?random=30', width: 1200, height: 800, alt: 'Portrait 1' },
+          { src: 'https://picsum.photos/1200/800?random=31', width: 1200, height: 800, alt: 'Portrait 2' },
+          { src: 'https://picsum.photos/1200/800?random=32', width: 1200, height: 800, alt: 'Portrait 3' },
+        ]
+      }
+    }
+  ];
+}
+
+const { title, description, photos } = Astro.props;
+---
+
+<Layout title={`${title} - Photo Portfolio`} description={description}>
+  <div style="margin-bottom: 2rem;">
+    <a href="/gallery" style="color: var(--color-accent);">← Back to Gallery</a>
+  </div>
+  
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">{title}</h1>
+  <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">{description}</p>
+  
+  <PhotoSwipeGallery photos={photos} />
+</Layout>

@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Home - Photo Portfolio">
+  <section>
+    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to My Portfolio</h1>
+    <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+      写真作品をご覧ください
+    </p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+      <div style="padding: 2rem; border: 1px solid var(--color-border); border-radius: 8px;">
+        <h2 style="margin-bottom: 1rem;">Gallery</h2>
+        <p style="margin-bottom: 1rem; color: #666;">全作品のギャラリー</p>
+        <a href="/gallery" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--color-accent); color: white; border-radius: 4px; text-decoration: none;">View Gallery</a>
+      </div>
+      
+      <div style="padding: 2rem; border: 1px solid var(--color-border); border-radius: 8px;">
+        <h2 style="margin-bottom: 1rem;">Profile</h2>
+        <p style="margin-bottom: 1rem; color: #666;">作者について</p>
+        <a href="/profile" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--color-accent); color: white; border-radius: 4px; text-decoration: none;">View Profile</a>
+      </div>
+    </div>
+  </section>
+</Layout>
