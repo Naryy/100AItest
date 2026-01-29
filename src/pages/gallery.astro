@@ -1,21 +1,58 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import PhotoSwipeGallery from '../components/PhotoSwipeGallery.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GalleryGrid from '../components/GalleryGrid.astro';
+import { getAllWorks } from '../lib/works';
 
-// サンプル画像データ（後で実際の画像に置き換え）
-const photos = [
-  { src: 'https://picsum.photos/800/600?random=1', width: 800, height: 600, alt: 'Photo 1' },
-  { src: 'https://picsum.photos/800/600?random=2', width: 800, height: 600, alt: 'Photo 2' },
-  { src: 'https://picsum.photos/800/600?random=3', width: 800, height: 600, alt: 'Photo 3' },
-  { src: 'https://picsum.photos/800/600?random=4', width: 800, height: 600, alt: 'Photo 4' },
-  { src: 'https://picsum.photos/800/600?random=5', width: 800, height: 600, alt: 'Photo 5' },
-  { src: 'https://picsum.photos/800/600?random=6', width: 800, height: 600, alt: 'Photo 6' },
-];
+const allWorks = getAllWorks();
 ---
 
-<Layout title="Gallery - Photo Portfolio">
-  <h1 style="font-size: 2.5rem; margin-bottom: 2rem;">Gallery</h1>
-  <p style="color: #666; margin-bottom: 2rem;">写真をクリックすると拡大表示されます</p>
-  
-  <PhotoSwipeGallery photos={photos} />
-</Layout>
+<BaseLayout title="Gallery" description="全作品のギャラリー">
+  <div class="gallery-page">
+    <header class="page-header">
+      <h1 class="page-title">Gallery</h1>
+      <p class="page-description">
+        これまでに撮影した作品の一覧です。作品をクリックすると詳細をご覧いただけます。
+      </p>
+      <div class="page-meta">
+        <span>{allWorks.length} 作品</span>
+      </div>
+    </header>
+
+    <GalleryGrid works={allWorks} />
+  </div>
+</BaseLayout>
+
+<style>
+  .gallery-page {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .page-description {
+    font-size: 1.1rem;
+    color: var(--color-gray);
+    max-width: 600px;
+    margin: 0 auto 1rem;
+    line-height: 1.8;
+  }
+
+  .page-meta {
+    font-size: 0.9rem;
+    color: var(--color-gray);
+    padding: 0.5rem 1rem;
+    background: #f5f5f5;
+    display: inline-block;
+    border-radius: 20px;
+  }
+</style>

@@ -1,58 +1,246 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import PhotoSwipeGallery from '../../components/PhotoSwipeGallery.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ResponsiveImage from '../../components/ResponsiveImage.astro';
+import { getAllWorks, getWorkBySlug } from '../../lib/works';
 
 export function getStaticPaths() {
-  return [
-    {
-      params: { slug: 'nature' },
-      props: {
-        title: '自然風景',
-        description: '自然の美しさを捉えた作品集',
-        photos: [
-          { src: 'https://picsum.photos/1200/800?random=10', width: 1200, height: 800, alt: 'Nature 1' },
-          { src: 'https://picsum.photos/1200/800?random=11', width: 1200, height: 800, alt: 'Nature 2' },
-          { src: 'https://picsum.photos/1200/800?random=12', width: 1200, height: 800, alt: 'Nature 3' },
-        ]
-      }
-    },
-    {
-      params: { slug: 'urban' },
-      props: {
-        title: '都市景観',
-        description: '都市の表情を切り取った作品集',
-        photos: [
-          { src: 'https://picsum.photos/1200/800?random=20', width: 1200, height: 800, alt: 'Urban 1' },
-          { src: 'https://picsum.photos/1200/800?random=21', width: 1200, height: 800, alt: 'Urban 2' },
-          { src: 'https://picsum.photos/1200/800?random=22', width: 1200, height: 800, alt: 'Urban 3' },
-        ]
-      }
-    },
-    {
-      params: { slug: 'portrait' },
-      props: {
-        title: 'ポートレート',
-        description: '人物の表情を捉えた作品集',
-        photos: [
-          { src: 'https://picsum.photos/1200/800?random=30', width: 1200, height: 800, alt: 'Portrait 1' },
-          { src: 'https://picsum.photos/1200/800?random=31', width: 1200, height: 800, alt: 'Portrait 2' },
-          { src: 'https://picsum.photos/1200/800?random=32', width: 1200, height: 800, alt: 'Portrait 3' },
-        ]
-      }
-    }
-  ];
+  const works = getAllWorks();
+  return works.map(work => ({
+    params: { slug: work.slug },
+    props: { work }
+  }));
 }
 
-const { title, description, photos } = Astro.props;
+const { work } = Astro.props;
 ---
 
-<Layout title={`${title} - Photo Portfolio`} description={description}>
-  <div style="margin-bottom: 2rem;">
-    <a href="/gallery" style="color: var(--color-accent);">← Back to Gallery</a>
-  </div>
+<BaseLayout title={work.title} description={work.description}>
+  <article class="work-detail">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="separator">/</span>
+      <a href="/gallery">Gallery</a>
+      <span class="separator">/</span>
+      <span class="current">{work.title}</span>
+    </nav>
+
+    <!-- Work Header -->
+    <header class="work-header">
+      <h1 class="work-title">{work.title}</h1>
+      <div class="work-meta">
+        <span class="meta-item">
+          <strong>📅</strong> {new Date(work.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </span>
+        <span class="meta-item">
+          <strong>📍</strong> {work.location}
+        </span>
+        <span class="meta-item">
+          <strong>📷</strong> {work.images.length} 枚
+        </span>
+      </div>
+      <div class="work-tags">
+        {work.tags.map(tag => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+      <p class="work-description">{work.description}</p>
+    </header>
+
+    <!-- Photo Gallery with PhotoSwipe -->
+    <div class="photo-gallery" id="gallery">
+      {work.images.map((filename, index) => {
+        const name = filename.replace(/\.(jpe?g|png)$/i, '');
+        const fullSizeSrc = `/generated/${work.slug}/w2400/${name}.jpg`;
+        return (
+          <a 
+            href={fullSizeSrc}
+            data-pswp-width="2400"
+            data-pswp-height="1600"
+            class="gallery-item"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <ResponsiveImage 
+              slug={work.slug}
+              filename={filename}
+              alt={`${work.title} ${index + 1}`}
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </a>
+        );
+      })}
+    </div>
+
+    <!-- Back to Gallery -->
+    <div class="back-link">
+      <a href="/gallery" class="btn-back">← ギャラリーに戻る</a>
+    </div>
+  </article>
+</BaseLayout>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.css">
+
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import 'photoswipe/style.css';
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#gallery',
+    children: 'a',
+    pswpModule: () => import('photoswipe'),
+    // キーボード操作を有効化
+    keyboard: true,
+    // ズーム設定
+    zoom: true,
+    // アニメーション設定
+    showHideAnimationType: 'fade',
+    // UI要素の表示
+    closeTitle: '閉じる (Esc)',
+    zoomTitle: 'ズーム',
+    arrowPrevTitle: '前へ (矢印キー)',
+    arrowNextTitle: '次へ (矢印キー)',
+  });
   
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">{title}</h1>
-  <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">{description}</p>
-  
-  <PhotoSwipeGallery photos={photos} />
-</Layout>
+  lightbox.init();
+</script>
+
+<style>
+  .work-detail {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    font-size: 0.9rem;
+    color: var(--color-gray);
+    margin-bottom: 2rem;
+  }
+
+  .breadcrumb a {
+    color: var(--color-accent);
+  }
+
+  .breadcrumb .separator {
+    margin: 0 0.5rem;
+  }
+
+  .breadcrumb .current {
+    color: var(--color-text);
+  }
+
+  .work-header {
+    margin-bottom: 3rem;
+  }
+
+  .work-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .work-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--color-gray);
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    padding: 0.5rem 1rem;
+    background: #f0f0f0;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--color-gray);
+  }
+
+  .work-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-gray);
+  }
+
+  .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .gallery-item {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f5f5f5;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
+
+  .back-link {
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  .btn-back {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: var(--color-accent);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s ease;
+  }
+
+  .btn-back:hover {
+    background: #0052a3;
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .work-title {
+      font-size: 2rem;
+    }
+
+    .work-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .photo-gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

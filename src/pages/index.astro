@@ -1,26 +1,138 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GalleryGrid from '../components/GalleryGrid.astro';
+import { getFeaturedWorks } from '../lib/works';
+import { site } from '../lib/site';
+
+const featuredWorks = getFeaturedWorks(6);
 ---
 
-<Layout title="Home - Photo Portfolio">
-  <section>
-    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to My Portfolio</h1>
-    <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
-      写真作品をご覧ください
+<BaseLayout title={site.name} description={site.description}>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 class="hero-title">Welcome to My Portfolio</h1>
+    <p class="hero-description">
+      日本各地の美しい風景を写真に収めています。<br>
+      心に残る瞬間をお届けします。
     </p>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
-      <div style="padding: 2rem; border: 1px solid var(--color-border); border-radius: 8px;">
-        <h2 style="margin-bottom: 1rem;">Gallery</h2>
-        <p style="margin-bottom: 1rem; color: #666;">全作品のギャラリー</p>
-        <a href="/gallery" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--color-accent); color: white; border-radius: 4px; text-decoration: none;">View Gallery</a>
-      </div>
-      
-      <div style="padding: 2rem; border: 1px solid var(--color-border); border-radius: 8px;">
-        <h2 style="margin-bottom: 1rem;">Profile</h2>
-        <p style="margin-bottom: 1rem; color: #666;">作者について</p>
-        <a href="/profile" style="display: inline-block; padding: 0.5rem 1.5rem; background: var(--color-accent); color: white; border-radius: 4px; text-decoration: none;">View Profile</a>
-      </div>
+  </section>
+
+  <!-- Featured Works -->
+  <section class="featured">
+    <div class="section-header">
+      <h2 class="section-title">Featured Works</h2>
+      <a href="/gallery" class="view-all">View All →</a>
+    </div>
+    <GalleryGrid works={featuredWorks} />
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-content">
+      <h2>すべての作品を見る</h2>
+      <p>ギャラリーページで全作品をご覧いただけます</p>
+      <a href="/gallery" class="cta-button">Go to Gallery</a>
     </div>
   </section>
-</Layout>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 4rem 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    font-size: 1.25rem;
+    color: var(--color-gray);
+    line-height: 1.8;
+  }
+
+  .featured {
+    margin-top: 4rem;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .view-all {
+    font-size: 1rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .view-all:hover {
+    text-decoration: underline;
+  }
+
+  .cta {
+    margin-top: 5rem;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    text-align: center;
+    color: white;
+  }
+
+  .cta-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-content p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: white;
+    color: #667eea;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+</style>

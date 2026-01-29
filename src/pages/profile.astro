@@ -1,35 +1,176 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../lib/site';
 ---
 
-<Layout title="Profile - Photo Portfolio">
-  <article style="max-width: 800px;">
-    <h1 style="font-size: 2.5rem; margin-bottom: 2rem;">Profile</h1>
+<BaseLayout title="Profile" description="フォトグラファーのプロフィール">
+  <article class="profile">
+    <h1 class="page-title">Profile</h1>
     
-    <section style="margin-bottom: 3rem;">
-      <h2 style="font-size: 1.8rem; margin-bottom: 1rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem;">About</h2>
-      <p style="line-height: 1.8; color: #555;">
-        フォトグラファーとして活動しています。<br>
-        自然風景や都市の景観を中心に撮影しています。<br>
-        写真を通じて、日常に潜む美しさを表現することを目指しています。
-      </p>
+    <section class="profile-section">
+      <h2 class="section-title">About</h2>
+      <div class="section-content">
+        <p>
+          フォトグラファーとして活動しています。<br>
+          日本各地の自然風景や都市の景観を中心に撮影しています。<br>
+          写真を通じて、日常に潜む美しさや瞬間の輝きを表現することを目指しています。
+        </p>
+        <p>
+          季節の移ろい、光と影の対比、そして人々の営みが織りなす風景に魅了され、<br>
+          カメラを手に日本全国を旅しています。
+        </p>
+      </div>
     </section>
     
-    <section style="margin-bottom: 3rem;">
-      <h2 style="font-size: 1.8rem; margin-bottom: 1rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem;">Equipment</h2>
-      <ul style="line-height: 2; color: #555; margin-left: 2rem;">
-        <li>Camera: Canon EOS R5</li>
-        <li>Lens: RF 24-70mm F2.8L, RF 70-200mm F2.8L</li>
-        <li>Editing: Adobe Lightroom, Photoshop</li>
-      </ul>
+    <section class="profile-section">
+      <h2 class="section-title">Equipment</h2>
+      <div class="section-content">
+        <div class="equipment-list">
+          <div class="equipment-item">
+            <h3>Camera</h3>
+            <p>Canon EOS R5</p>
+            <p>Sony α7R V</p>
+          </div>
+          <div class="equipment-item">
+            <h3>Lens</h3>
+            <p>RF 24-70mm F2.8L IS USM</p>
+            <p>RF 70-200mm F2.8L IS USM</p>
+            <p>RF 16-35mm F2.8L IS USM</p>
+          </div>
+          <div class="equipment-item">
+            <h3>Editing</h3>
+            <p>Adobe Lightroom Classic</p>
+            <p>Adobe Photoshop</p>
+            <p>Capture One</p>
+          </div>
+        </div>
+      </div>
     </section>
     
-    <section>
-      <h2 style="font-size: 1.8rem; margin-bottom: 1rem; border-bottom: 2px solid var(--color-accent); padding-bottom: 0.5rem;">Contact</h2>
-      <p style="line-height: 1.8; color: #555;">
-        お仕事のご依頼やお問い合わせは、メールにてお願いいたします。<br>
-        Email: <a href="mailto:info@example.com">info@example.com</a>
-      </p>
+    <section class="profile-section">
+      <h2 class="section-title">Contact & Social</h2>
+      <div class="section-content">
+        <p class="contact-text">
+          お仕事のご依頼やお問い合わせは、以下よりお願いいたします。
+        </p>
+        <div class="contact-links">
+          <a href={`mailto:${site.author.email}`} class="contact-link">
+            <span class="icon">✉</span>
+            <span>{site.author.email}</span>
+          </a>
+          {site.author.social.instagram && (
+            <a href={site.author.social.instagram} target="_blank" rel="noopener noreferrer" class="contact-link">
+              <span class="icon">📷</span>
+              <span>Instagram</span>
+            </a>
+          )}
+          {site.author.social.twitter && (
+            <a href={site.author.social.twitter} target="_blank" rel="noopener noreferrer" class="contact-link">
+              <span class="icon">🐦</span>
+              <span>Twitter</span>
+            </a>
+          )}
+        </div>
+      </div>
     </section>
   </article>
-</Layout>
+</BaseLayout>
+
+<style>
+  .profile {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  .profile-section {
+    margin-bottom: 4rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .section-content {
+    color: var(--color-gray);
+    line-height: 1.8;
+  }
+
+  .section-content p {
+    margin-bottom: 1rem;
+  }
+
+  .equipment-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+
+  .equipment-item h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+  }
+
+  .equipment-item p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .contact-text {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .contact-link:hover {
+    background: #e9ecef;
+    text-decoration: none;
+  }
+
+  .contact-link .icon {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .equipment-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

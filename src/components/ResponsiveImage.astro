@@ -1,0 +1,62 @@
+---
+interface Props {
+  slug: string;
+  filename: string;
+  alt: string;
+  sizes?: string;
+  class?: string;
+  thumb?: boolean;
+}
+
+const { 
+  slug, 
+  filename, 
+  alt, 
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  class: className,
+  thumb = false
+} = Astro.props;
+
+// サムネイル表示の場合
+const thumbSrc = `/generated/${slug}/thumb.jpg`;
+
+// フルサイズ表示の場合
+const basePath = `/generated/${slug}`;
+const name = filename.replace(/\.(jpe?g|png)$/i, '');
+---
+
+{thumb ? (
+  <img 
+    src={thumbSrc}
+    alt={alt}
+    class={className}
+    loading="lazy"
+    decoding="async"
+  />
+) : (
+  <picture class={className}>
+    <!-- AVIF -->
+    <source
+      type="image/avif"
+      srcset={`${basePath}/w480/${name}.avif 480w, ${basePath}/w960/${name}.avif 960w, ${basePath}/w1600/${name}.avif 1600w, ${basePath}/w2400/${name}.avif 2400w`}
+      sizes={sizes}
+    />
+    
+    <!-- WebP -->
+    <source
+      type="image/webp"
+      srcset={`${basePath}/w480/${name}.webp 480w, ${basePath}/w960/${name}.webp 960w, ${basePath}/w1600/${name}.webp 1600w, ${basePath}/w2400/${name}.webp 2400w`}
+      sizes={sizes}
+    />
+    
+    <!-- JPEG (fallback) -->
+    <img
+      src={`${basePath}/w960/${name}.jpg`}
+      srcset={`${basePath}/w480/${name}.jpg 480w, ${basePath}/w960/${name}.jpg 960w, ${basePath}/w1600/${name}.jpg 1600w, ${basePath}/w2400/${name}.jpg 2400w`}
+      sizes={sizes}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+)}
