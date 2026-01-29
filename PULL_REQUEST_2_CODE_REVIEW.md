@@ -76,7 +76,7 @@ interface Props {
   galleryId?: string;  // 追加
 }
 
-const { photos, galleryId = `gallery-${Math.random().toString(36).substr(2, 9)}` } = Astro.props;
+const { photos, galleryId = `gallery-${Math.random().toString(36).slice(2, 11)}` } = Astro.props;
 ---
 
 <div class="gallery" id={galleryId}>
