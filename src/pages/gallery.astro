@@ -2,14 +2,41 @@
 import Layout from '../layouts/Layout.astro';
 import PhotoSwipeGallery from '../components/PhotoSwipeGallery.astro';
 
-// サンプル画像データ（後で実際の画像に置き換え）
+// 実際の画像データ
 const photos = [
-  { src: 'https://picsum.photos/800/600?random=1', width: 800, height: 600, alt: 'Photo 1' },
-  { src: 'https://picsum.photos/800/600?random=2', width: 800, height: 600, alt: 'Photo 2' },
-  { src: 'https://picsum.photos/800/600?random=3', width: 800, height: 600, alt: 'Photo 3' },
-  { src: 'https://picsum.photos/800/600?random=4', width: 800, height: 600, alt: 'Photo 4' },
-  { src: 'https://picsum.photos/800/600?random=5', width: 800, height: 600, alt: 'Photo 5' },
-  { src: 'https://picsum.photos/800/600?random=6', width: 800, height: 600, alt: 'Photo 6' },
+  { src: '/images/DSC_0012.jpg', width: 2048, height: 1365, alt: 'DSC_0012' },
+  { src: '/images/DSC_0106.jpg', width: 2048, height: 1365, alt: 'DSC_0106' },
+  { src: '/images/DSC_0139.jpg', width: 2048, height: 1365, alt: 'DSC_0139' },
+  { src: '/images/DSC_0356.jpg', width: 1365, height: 2048, alt: 'DSC_0356' },
+  { src: '/images/DSC_0442.jpeg', width: 1365, height: 2048, alt: 'DSC_0442' },
+  { src: '/images/DSC_0984.jpg', width: 1365, height: 2048, alt: 'DSC_0984' },
+  { src: '/images/DSC_1119.jpg', width: 2048, height: 1365, alt: 'DSC_1119' },
+  { src: '/images/DSC_1272.jpeg', width: 1365, height: 2048, alt: 'DSC_1272' },
+  { src: '/images/DSC_1276.jpg', width: 1365, height: 2048, alt: 'DSC_1276' },
+  { src: '/images/DSC_1420.jpg', width: 1365, height: 2048, alt: 'DSC_1420' },
+  { src: '/images/DSC_1633.jpg', width: 2048, height: 1365, alt: 'DSC_1633' },
+  { src: '/images/DSC_2320.jpg', width: 1365, height: 2048, alt: 'DSC_2320' },
+  { src: '/images/DSC_2435.jpg', width: 2048, height: 1365, alt: 'DSC_2435' },
+  { src: '/images/DSC_3248.jpg', width: 2048, height: 1365, alt: 'DSC_3248' },
+  { src: '/images/DSC_4145.jpg', width: 1365, height: 2048, alt: 'DSC_4145' },
+  { src: '/images/DSC_4873.jpeg', width: 1365, height: 2048, alt: 'DSC_4873' },
+  { src: '/images/DSC_5015.jpg', width: 2048, height: 1365, alt: 'DSC_5015' },
+  { src: '/images/DSC_5447.jpeg', width: 2048, height: 1365, alt: 'DSC_5447' },
+  { src: '/images/DSC_5483.jpeg', width: 1361, height: 2048, alt: 'DSC_5483' },
+  { src: '/images/DSC_5604-Enhanced-NR.jpg', width: 2048, height: 1140, alt: 'DSC_5604-Enhanced-NR' },
+  { src: '/images/DSC_5612.jpg', width: 1363, height: 2048, alt: 'DSC_5612' },
+  { src: '/images/DSC_6449.JPG', width: 2048, height: 1367, alt: 'DSC_6449' },
+  { src: '/images/DSC_6742.jpg', width: 1365, height: 2048, alt: 'DSC_6742' },
+  { src: '/images/DSC_6964.jpeg', width: 1365, height: 2048, alt: 'DSC_6964' },
+  { src: '/images/DSC_7478.jpeg', width: 1365, height: 2048, alt: 'DSC_7478' },
+  { src: '/images/DSC_7511.jpeg', width: 1365, height: 2048, alt: 'DSC_7511' },
+  { src: '/images/DSC_7985.jpg', width: 1365, height: 2048, alt: 'DSC_7985' },
+  { src: '/images/DSC_7995.jpg', width: 1638, height: 2048, alt: 'DSC_7995' },
+  { src: '/images/DSC_8058.jpg', width: 1365, height: 2048, alt: 'DSC_8058' },
+  { src: '/images/DSC_9890.jpeg', width: 2048, height: 1365, alt: 'DSC_9890' },
+  { src: '/images/DSC_9899.jpeg', width: 2048, height: 1365, alt: 'DSC_9899' },
+  { src: '/images/DSC_9984.jpg', width: 2048, height: 1365, alt: 'DSC_9984' },
+  { src: '/images/DSC_9990.jpg', width: 2048, height: 1365, alt: 'DSC_9990' },
 ];
 ---
 
