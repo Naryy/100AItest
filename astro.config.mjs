@@ -5,4 +5,5 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://naryy.github.io',
   base: '/100AItest',
+  outDir: './docs',
 });
